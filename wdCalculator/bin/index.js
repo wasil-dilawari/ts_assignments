@@ -3,6 +3,7 @@ import chalk from "chalk";
 import inquirer from "inquirer";
 async function wdCalculator() {
     let ans;
+    let opSign;
     let errormsg = false;
     let again = false;
     do {
@@ -16,9 +17,16 @@ async function wdCalculator() {
                 name: "operator",
                 type: "list",
                 message: "Please choose " + chalk.redBright("Operator") + ":",
-                choices: ["+", "-", "*", "/"],
+                choices: [
+                    "addition (+)",
+                    "subtraction (-)",
+                    "multiplication (*)",
+                    "division (/)",
+                    "remainder -or- modulus (%)",
+                    "power -or- exponenet(^)",
+                ],
                 default() {
-                    return "+";
+                    return "add (+)";
                 },
             },
             {
@@ -28,17 +36,29 @@ async function wdCalculator() {
             },
         ]);
         switch (inputs.operator) {
-            case "+":
+            case "addition (+)":
                 ans = inputs.firstInput + inputs.secondInput;
+                opSign = "+";
                 break;
-            case "-":
+            case "subtraction (-)":
                 ans = inputs.firstInput - inputs.secondInput;
+                opSign = "-";
                 break;
-            case "*":
+            case "multiplication (*)":
                 ans = inputs.firstInput * inputs.secondInput;
+                opSign = "x";
                 break;
-            case "/":
+            case "division (/)":
                 ans = inputs.firstInput / inputs.secondInput;
+                opSign = "/";
+                break;
+            case "remainder -or- modulus (%)":
+                ans = inputs.firstInput % inputs.secondInput;
+                opSign = "%";
+                break;
+            case "power -or- exponenet(^)":
+                ans = inputs.firstInput ** inputs.secondInput;
+                opSign = "^";
                 break;
             default:
                 errormsg = true;
@@ -49,7 +69,7 @@ async function wdCalculator() {
         }
         else {
             if (Number.isInteger(ans)) {
-                console.log("\n Ans:", inputs.firstInput, inputs.operator, inputs.secondInput, "=", chalk.bold.bgYellowBright(" " + ans + " \n"));
+                console.log("\n Ans:", inputs.firstInput, opSign, inputs.secondInput, "=", chalk.bold.bgYellowBright(" " + ans + " \n"));
             }
             else {
                 console.log("\n Ans:", inputs.firstInput, inputs.operator, inputs.secondInput, "=", chalk.bold.bgYellowBright(" " + ans + " "), "or", chalk.bold.bgYellowBright(" " + ans.toFixed(2) + " \n"));

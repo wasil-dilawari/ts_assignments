@@ -5,6 +5,7 @@ import inquirer from "inquirer";
 
 async function wdCalculator() {
   let ans;
+  let opSign;
   let errormsg = false;
   let again = false;
 
@@ -19,9 +20,16 @@ async function wdCalculator() {
         name: "operator",
         type: "list",
         message: "Please choose " + chalk.redBright("Operator") + ":",
-        choices: ["+", "-", "*", "/"],
+        choices: [
+          "addition (+)",
+          "subtraction (-)",
+          "multiplication (*)",
+          "division (/)",
+          "remainder -or- modulus (%)",
+          "power -or- exponenet(^)",
+        ],
         default() {
-          return "+";
+          return "add (+)";
         },
       },
       {
@@ -32,17 +40,29 @@ async function wdCalculator() {
     ]);
 
     switch (inputs.operator) {
-      case "+":
+      case "addition (+)":
         ans = inputs.firstInput + inputs.secondInput;
+        opSign = "+";
         break;
-      case "-":
+      case "subtraction (-)":
         ans = inputs.firstInput - inputs.secondInput;
+        opSign = "-";
         break;
-      case "*":
+      case "multiplication (*)":
         ans = inputs.firstInput * inputs.secondInput;
+        opSign = "x";
         break;
-      case "/":
+      case "division (/)":
         ans = inputs.firstInput / inputs.secondInput;
+        opSign = "/";
+        break;
+      case "remainder -or- modulus (%)":
+        ans = inputs.firstInput % inputs.secondInput;
+        opSign = "%";
+        break;
+      case "power -or- exponenet(^)":
+        ans = inputs.firstInput ** inputs.secondInput;
+        opSign = "^";
         break;
       default:
         errormsg = true;
@@ -56,7 +76,7 @@ async function wdCalculator() {
         console.log(
           "\n Ans:",
           inputs.firstInput,
-          inputs.operator,
+          opSign,
           inputs.secondInput,
           "=",
           chalk.bold.bgYellowBright(" " + ans + " \n")
